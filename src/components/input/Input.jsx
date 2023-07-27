@@ -2,7 +2,7 @@ import React from "react";
 import "./Input.scss";
 
 const Input = () => {
-  return <div>Input</div>;
+  return <div className="input">Input</div>;
 };
 
 export default Input;
