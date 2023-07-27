@@ -9,12 +9,8 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 function App() {
   const Layout = () => {
     return (
-      <div className="main">
-        <div className="container">
-          <div className="contentContainer">
-            <Outlet />
-          </div>
-        </div>
+      <div>
+        <Home />
       </div>
     );
   };
