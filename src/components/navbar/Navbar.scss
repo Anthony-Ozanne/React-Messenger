@@ -1,0 +1,28 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  background-color: #474e68;
+  height: 70px;
+  padding: 10px;
+  justify-content: space-between;
+  color: #f8f8f8;
+
+  .logo {
+    font-weight: bold;
+  }
+
+  .user {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    .avatar {
+      object-fit: cover;
+    }
+
+    .logoutIcon {
+      color: #950101;
+      cursor: pointer;
+    }
+  }
+}
