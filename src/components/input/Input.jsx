@@ -2,6 +2,7 @@ import React from "react";
 import "./Input.scss";
 import AttachEmailOutlinedIcon from "@mui/icons-material/AttachEmailOutlined";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
+import SendIcon from "@mui/icons-material/Send";
 
 const Input = () => {
   return (
@@ -13,7 +14,7 @@ const Input = () => {
         <label htmlFor="file">
           <AddPhotoAlternateOutlinedIcon className="AddPhoto" />
         </label>
-        <button>Envoyer</button>
+        <SendIcon className="button" />
       </div>
     </div>
   );

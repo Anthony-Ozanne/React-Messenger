@@ -1,3 +1,14 @@
+@mixin mobile {
+  @media screen and (max-width: 480px) {
+    @content;
+  }
+}
+@mixin tablet {
+  @media screen and (max-width: 810px) {
+    @content;
+  }
+}
+
 .navbar {
   display: flex;
   align-items: center;
@@ -8,9 +19,17 @@
   color: #f8f8f8;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
+  @include mobile {
+    height: 50px;
+  }
+
   .logo {
     font-weight: bold;
     font-size: 20px;
+
+    @include tablet {
+      display: none;
+    }
   }
 
   .user {

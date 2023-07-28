@@ -1,3 +1,14 @@
+@mixin mobile {
+  @media screen and (max-width: 480px) {
+    @content;
+  }
+}
+@mixin tablet {
+  @media screen and (max-width: 810px) {
+    @content;
+  }
+}
+
 .chat {
   flex: 2;
   background-color: #d0d0d0;
@@ -10,6 +21,11 @@
     align-items: center;
     justify-content: space-between;
     transition: all 1s ease;
+
+    @include mobile {
+      height: 60px;
+      padding: 5px;
+    }
 
     .userChat {
       display: flex;
@@ -31,6 +47,12 @@
       flex-direction: column;
       justify-content: space-between;
       cursor: pointer;
+      margin-right: 20px;
+      margin-left: 40px;
+
+      @include mobile {
+        margin-right: 15px;
+      }
 
       span {
         width: 100%;
@@ -47,14 +69,14 @@
       .hamburger {
         span {
           &:first-child {
-            background-color: #144272;
+            background-color: #d0d0d0;
             transform: rotate(45deg);
           }
           &:nth-child(2) {
             opacity: 0;
           }
           &:last-child {
-            background-color: #144272;
+            background-color: #d0d0d0;
             transform: rotate(-45deg);
           }
         }

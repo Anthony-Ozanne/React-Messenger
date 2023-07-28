@@ -1,5 +1,24 @@
+@mixin mobile {
+  @media screen and (max-width: 480px) {
+    @content;
+  }
+}
+@mixin tablet {
+  @media screen and (max-width: 810px) {
+    @content;
+  }
+}
+
 .messages {
   padding: 10px;
   height: calc(100% - 220px);
   overflow: scroll;
+
+  @include tablet {
+    height: calc(100% - 210px);
+  }
+
+  @include mobile {
+    height: calc(100% - 180px);
+  }
 }
