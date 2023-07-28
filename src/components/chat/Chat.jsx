@@ -4,10 +4,10 @@ import Avatar from "@mui/material/Avatar";
 import Messages from "../messages/Messages";
 import Input from "../input/Input";
 
-const Chat = () => {
+const Chat = ({ sidebarOpen, setSidebarOpen }) => {
   return (
     <div className="chat">
-      <div className="chatInfo">
+      <div className={"chatInfo " + (sidebarOpen && "active")}>
         <div className="userChat">
           <Avatar
             className="avatar"
@@ -17,6 +17,11 @@ const Chat = () => {
           <div className="userChatInfo">
             <span>Masha</span>
           </div>
+        </div>
+        <div className="hamburger" onClick={() => setSidebarOpen(!sidebarOpen)}>
+          <span className="line1"></span>
+          <span className="line2"></span>
+          <span className="line3"></span>
         </div>
       </div>
       <Messages />

@@ -1,4 +1,19 @@
+@mixin mobile {
+  @media screen and (max-width: 480px) {
+    @content;
+  }
+}
+@mixin tablet {
+  @media screen and (max-width: 810px) {
+    @content;
+  }
+}
+
 .sidebar {
   flex: 1;
   background-color: #144272;
+
+  &.active {
+    display: none;
+  }
 }
