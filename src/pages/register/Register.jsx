@@ -5,25 +5,23 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, storage, db } from "../../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
+import { useNavigate, Link } from "react-router-dom";
 
 const Register = () => {
-  const [error, setError] = useState(false);
+  const [err, setErr] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const name = event.target[0].value;
-    const email = event.target[1].value;
-    const password = event.target[2].value;
-    const file = event.target[3].files[0];
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const displayName = e.target[0].value;
+    const email = e.target[1].value;
+    const password = e.target[2].value;
+    const file = e.target[3].files[0];
 
     try {
-      const response = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const res = await createUserWithEmailAndPassword(auth, email, password);
 
-      const storageRef = ref(storage, name);
+      const storageRef = ref(storage, displayName);
 
       const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -33,25 +31,28 @@ const Register = () => {
       // 3. Completion observer, called on successful completion
       uploadTask.on(
         (error) => {
-          setError(true);
+          setErr(true);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-            await updateProfile(response.user, {
-              name,
+            await updateProfile(res.user, {
+              displayName,
               photoURL: downloadURL,
             });
-            await setDoc(doc(db, "users", response.user.uid), {
-              uid: response.user.uid,
-              name,
+            await setDoc(doc(db, "users", res.user.uid), {
+              uid: res.user.uid,
+              displayName,
               email,
               photoURL: downloadURL,
             });
+
+            await setDoc(doc(db, "userChats", res.user.uid), {});
+            navigate("/");
           });
         }
       );
-    } catch (error) {
-      setError(true);
+    } catch (err) {
+      setErr(true);
     }
   };
 
@@ -60,7 +61,6 @@ const Register = () => {
       <div className="formWrapper">
         <span className="logo">React Messenger</span>
         <h4 className="title">Je veux m'enregistrer</h4>
-        {error && <span>Quelque chose ne marche pas comme prévu</span>}
         <form onSubmit={handleSubmit}>
           <input type="text" placeholder="Nom"></input>
           <input type="email" placeholder="Email"></input>
@@ -72,7 +72,10 @@ const Register = () => {
           </label>
           <button>S'enregistrer</button>
         </form>
-        <p>Vous avez déjà un compte ? Connectez-vous</p>
+        {err && <span>Quelque chose ne marche pas comme prévu</span>}
+        <p>
+          Vous avez déjà un compte ? <Link to="/login">Connectez-vous</Link>
+        </p>
       </div>
     </div>
   );

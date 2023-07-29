@@ -1,20 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Navbar.scss";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Avatar from "@mui/material/Avatar";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase";
+import { AuthContext } from "../../context/AuthContext";
 
 const Navbar = () => {
+  const { currentUser } = useContext(AuthContext);
+
   return (
     <div className="navbar">
       <span className="logo">React Messenger</span>
       <div className="user">
         <Avatar
           className="avatar"
-          alt="Remy Sharp"
-          src="https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=1600"
+          alt={currentUser.displayName}
+          src={currentUser.photoURL}
         />
-        <span>Nom</span>
-        <LogoutIcon className="logoutIcon" />
+        <span>{currentUser.displayName}</span>
+        <LogoutIcon className="logoutIcon" onClick={() => signOut(auth)} />
       </div>
     </div>
   );
