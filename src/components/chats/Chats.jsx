@@ -1,21 +1,56 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Chats.scss";
 import Avatar from "@mui/material/Avatar";
+import { AuthContext } from "../../context/AuthContext";
+import { ChatContext } from "../../context/ChatContext";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../firebase";
 
 const Chats = () => {
+  const [chats, setChats] = useState([]);
+
+  const { currentUser } = useContext(AuthContext);
+  const { dispatch } = useContext(ChatContext);
+
+  // Permet de s'abonner aux changements dans Firestore lorsque le composant est monté
+  useEffect(() => {
+    // Création d'un abonnement à Firestore pour obtenir les chats pour l'utilisateur actuel
+    const getChats = () => {
+      // L'abonnement est stocké dans 'unsub' pour qu'il puisse être annulé
+      const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
+        // Mise à jour de l'état de 'chats' avec les données du document Firestore
+        setChats(doc.data());
+      });
+
+      return () => {
+        unsub();
+      };
+    };
+    // Si l'uid de l'utilisateur actuel est défini, exécute la fonction getChats
+    currentUser.uid && getChats();
+    // Déclenche l'exécution du useEffect chaque fois que 'currentUser.uid' change
+  }, [currentUser.uid]);
+
+  const handleSelect = (u) => {
+    // Dispatch d'une action pour changer l'utilisateur sélectionné dans le contexte de chat
+    dispatch({ type: "CHANGE_USER", payload: u });
+  };
+
   return (
     <div className="chats">
-      <div className="userChats">
-        <Avatar
-          className="avatar"
-          alt="Jack"
-          src="https://images.pexels.com/photos/1559486/pexels-photo-1559486.jpeg?auto=compress&cs=tinysrgb&w=1600https://images.pexels.com/photos/2726111/pexels-photo-2726111.jpeg?auto=compress&cs=tinysrgb&w=1600"
-        />
-        <div className="userChatsInfo">
-          <span>Jack</span>
-          <p>Hello</p>
+      {Object.entries(chats)?.map((chat) => (
+        <div className="userChats" key={chat[0]}>
+          <Avatar
+            className="avatar"
+            alt="Jack"
+            src={chat[1].userInfo.photoURL}
+          />
+          <div className="userChatsInfo">
+            <span>{chat[1].userInfo.displayName}</span>
+            <p>{chat[1].userInfo.lastMessage?.text}</p>
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 };

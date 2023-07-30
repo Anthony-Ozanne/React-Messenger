@@ -10,9 +10,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       <Navbar />
       <Search />
       <Chats />
-      <Chats />
-      <Chats />
-      <Chats />
     </div>
   );
 };
