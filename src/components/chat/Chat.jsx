@@ -1,21 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Chat.scss";
 import Avatar from "@mui/material/Avatar";
 import Messages from "../messages/Messages";
 import Input from "../input/Input";
+import { ChatContext } from "../../context/ChatContext";
 
 const Chat = ({ sidebarOpen, setSidebarOpen }) => {
+  const { data } = useContext(ChatContext);
   return (
     <div className="chat">
       <div className={"chatInfo " + (sidebarOpen && "active")}>
         <div className="userChat">
-          <Avatar
-            className="avatar"
-            alt="Masha"
-            src="https://images.pexels.com/photos/2726111/pexels-photo-2726111.jpeg?auto=compress&cs=tinysrgb&w=1600"
-          />
+          <Avatar className="avatar" alt="" src={data.user?.photoURL} />
           <div className="userChatInfo">
-            <span>Masha</span>
+            <span>{data.user?.displayName}</span>
           </div>
         </div>
         <div className="hamburger" onClick={() => setSidebarOpen(!sidebarOpen)}>

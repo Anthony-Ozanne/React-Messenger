@@ -18,8 +18,9 @@ const Chats = () => {
     const getChats = () => {
       // L'abonnement est stocké dans 'unsub' pour qu'il puisse être annulé
       const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
+        const data = doc.data();
         // Mise à jour de l'état de 'chats' avec les données du document Firestore
-        setChats(doc.data());
+        setChats(data);
       });
 
       return () => {
@@ -38,19 +39,26 @@ const Chats = () => {
 
   return (
     <div className="chats">
-      {Object.entries(chats)?.map((chat) => (
-        <div className="userChats" key={chat[0]}>
-          <Avatar
-            className="avatar"
-            alt="Jack"
-            src={chat[1].userInfo.photoURL}
-          />
-          <div className="userChatsInfo">
-            <span>{chat[1].userInfo.displayName}</span>
-            <p>{chat[1].userInfo.lastMessage?.text}</p>
-          </div>
-        </div>
-      ))}
+      {chats &&
+        Object.entries(chats)
+          ?.sort((a, b) => b[1].date - a[1].date)
+          .map((chat) => (
+            <div
+              className="userChats"
+              key={chat[0]}
+              onClick={() => handleSelect(chat[1].userInfo)}
+            >
+              <Avatar
+                className="avatar"
+                alt="Jack"
+                src={chat[1].userInfo.photoURL}
+              />
+              <div className="userChatsInfo">
+                <span>{chat[1].userInfo.displayName}</span>
+                <p>{chat[1].lastMessage?.text}</p>
+              </div>
+            </div>
+          ))}
     </div>
   );
 };
