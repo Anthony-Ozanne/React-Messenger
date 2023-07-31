@@ -19,20 +19,25 @@ import {
 const Input = () => {
   const [text, setText] = useState("");
   const [img, setImg] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
   const handleSend = async () => {
+    setIsLoading(true);
     if (img) {
       const storageRef = ref(storage, uuid());
 
       const uploadTask = uploadBytesResumable(storageRef, img);
 
       uploadTask.on(
+        "state_changed",
+        (snapshot) => {},
         (error) => {},
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+        async () => {
+          try {
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
             await updateDoc(doc(db, "chats", data.chatId), {
               messages: arrayUnion({
                 id: uuid(),
@@ -42,7 +47,11 @@ const Input = () => {
                 img: downloadURL,
               }),
             });
-          });
+          } catch (error) {
+            console.error("An error occurred:", error);
+          } finally {
+            setIsLoading(false);
+          }
         }
       );
     } else {
@@ -54,6 +63,7 @@ const Input = () => {
           date: Timestamp.now(),
         }),
       });
+      setIsLoading(false);
     }
 
     await updateDoc(doc(db, "userChats", currentUser.uid), {
