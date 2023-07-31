@@ -14,6 +14,12 @@ const Message = ({ message }) => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   }, [message]);
 
+    // Conversion de Firestore Timestamp en un objet JS de type date
+    const date = message.date.toDate();
+
+    // Formater l'objet Date en une chaîne lisible
+    const timeString = `${date.getHours()}:${("0" + date.getMinutes()).slice(-2)}`;
+
   return (
     <div
       ref={ref}
@@ -29,7 +35,7 @@ const Message = ({ message }) => {
               : data.user.photoURL
           }
         />
-        <span>à l'instant</span>
+        <span>{timeString}</span>
       </div>
       <div className="messageContent">
         <p>{message.text}</p>
