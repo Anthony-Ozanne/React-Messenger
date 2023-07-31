@@ -81,6 +81,12 @@ const Input = () => {
         placeholder="Ecrivez votre message ..."
         onChange={(e) => setText(e.target.value)}
         value={text}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            handleSend();
+          }
+        }}
       />
       <div className="send">
         <AttachEmailOutlinedIcon className="attach" />
