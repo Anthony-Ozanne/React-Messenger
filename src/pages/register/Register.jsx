@@ -20,20 +20,20 @@ const Register = () => {
 
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
-
-      const storageRef = ref(storage, displayName);
-
+  
+      const storageRef = ref(storage, res.user.uid); 
+  
       const uploadTask = uploadBytesResumable(storageRef, file);
 
-      // Register three observers:
-      // 1. 'state_changed' observer, called any time the state changes
-      // 2. Error observer, called on failure
-      // 3. Completion observer, called on successful completion
-      uploadTask.on(
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          
+        }, 
         (error) => {
           setErr(true);
-        },
+        }, 
         () => {
+        
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
             await updateProfile(res.user, {
               displayName,
@@ -45,7 +45,6 @@ const Register = () => {
               email,
               photoURL: downloadURL,
             });
-
             await setDoc(doc(db, "userChats", res.user.uid), {});
             navigate("/");
           });

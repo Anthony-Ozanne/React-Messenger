@@ -20,6 +20,9 @@ export const ChatContextProvider = ({ children }) => {
               ? currentUser.uid + action.payload.uid
               : action.payload.uid + currentUser.uid,
         };
+        // ACTION CLEAR CHAT : permet de nettoyer le chat après la déconnexion d'un utilisateur
+        case "CLEAR_CHAT":
+      return INITIAL_STATE;
 
       default:
         return state;
