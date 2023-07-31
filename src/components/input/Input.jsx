@@ -80,6 +80,7 @@ const Input = () => {
         type="text"
         placeholder="Ecrivez votre message ..."
         onChange={(e) => setText(e.target.value)}
+        value={text}
       />
       <div className="send">
         <AttachEmailOutlinedIcon className="attach" />
