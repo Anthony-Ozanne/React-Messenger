@@ -39,26 +39,25 @@ const Chats = () => {
 
   return (
     <div className="chats">
-      {chats &&
-        Object.entries(chats)
-          ?.sort((a, b) => b[1].date - a[1].date)
-          .map((chat) => (
-            <div
-              className="userChats"
-              key={chat[0]}
-              onClick={() => handleSelect(chat[1].userInfo)}
-            >
-              <Avatar
-                className="avatar"
-                alt="Jack"
-                src={chat[1].userInfo.photoURL}
-              />
-              <div className="userChatsInfo">
-                <span>{chat[1].userInfo.displayName}</span>
-                <p>{chat[1].lastMessage?.text}</p>
-              </div>
+      {Object.entries(chats)
+        ?.sort((a, b) => b[1].date - a[1].date)
+        .map((chat) => (
+          <div
+            className="userChats"
+            key={chat[0]}
+            onClick={() => handleSelect(chat[1].userInfo)}
+          >
+            <Avatar
+              className="avatar"
+              alt="Jack"
+              src={chat[1].userInfo.photoURL}
+            />
+            <div className="userChatsInfo">
+              <span>{chat[1].userInfo.displayName}</span>
+              <p>{chat[1].lastMessage?.text}</p>
             </div>
-          ))}
+          </div>
+        ))}
     </div>
   );
 };
