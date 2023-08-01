@@ -1,70 +1,40 @@
-# Getting Started with Create React App
+# Application React Messenger
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Image de l'application React Messenger](./img/../src/img/react-messenger.png)
 
-## Available Scripts
+C'est une application de messagerie en temps réel construite avec React et Firebase. Les utilisateurs peuvent s'inscrire, se connecter, démarrer de nouvelles conversations et envoyer et recevoir des messages en temps réel.
 
-In the project directory, you can run:
+## Technologies utilisées
 
-### `yarn start`
+- React.js (hooks, context API)
+- React Router
+- Firebase
+  - Firestore (pour la base de données en temps réel)
+  - Authentification Firebase (pour l'authentification des utilisateurs)
+  - Stockage Firebase (pour le stockage des images de profil des utilisateurs)
+- SASS 
+- Material-UI
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Fonctionnalités clés
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Authentification des utilisateurs : Les utilisateurs peuvent créer un compte, se connecter et se déconnecter.
+- Chats en temps réel : Les utilisateurs peuvent commencer un chat avec un autre utilisateur et envoyer/recevoir des messages en temps réel.
+- Téléchargement d'image : Les utilisateurs peuvent télécharger une image de profil lors de l'inscription.
+- Affichage des informations de l'utilisateur : Le nom et l'image de profil de l'utilisateur sont affichés dans le chat.
+- Aperçu du dernier message : Le dernier message de chaque chat est affiché sur l'écran principal du chat.
+- Recherche d'utilisateurs : Possibilité de rechercher un utilisateur existant via la barre de recherche à l'intérieur du menu burger.
 
-### `yarn test`
+## Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clonez ce dépôt sur votre machine locale en utilisant `git clone https://github.com/votre_username/react-messenger-app.git`.
+2. Naviguez jusqu'au répertoire du projet : `cd react-messenger-app`.
+3. Installez les dépendances : `npm install`.
+4. Démarrez le serveur de développement : `npm start`.
 
-### `yarn build`
+## Utilisation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Créez deux utilisateurs et faites les discuter entre eux ( il faudra que l'une des fenêtres soit en navigation privée ).
+Pour rechercher un utilisateur :
+- Il vous suffit simplement de rentrer son nom dans la barre de recherche qui est cachée dans le menu de droite.
+- Puis cliquez sur le résultat de la recherche et cliquez encore une fois sur l'utilisateur qui est apparu en dessous, son nom et son image apparaitront alors en haut de la fenêtre.
+- Ensuite il n'y a plus qu'à commencer la conversation.
