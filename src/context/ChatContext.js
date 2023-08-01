@@ -2,17 +2,18 @@ import { createContext, useContext, useReducer } from "react";
 import { AuthContext } from "./AuthContext";
 
 export const ChatContext = createContext();
-
+// Composant fournisseur du contexte de chat
 export const ChatContextProvider = ({ children }) => {
-  
+  // Accès à l'utilisateur courant à partir du contexte d'authentification
   const { currentUser } = useContext(AuthContext);
 
-
+  // Etat initial du chat
   const INITIAL_STATE = {
     chatId: "null",
     user: {},
   };
 
+  // Reducer pour gérer les modifications de l'état du chat
   const chatReducer = (state, action) => {
     switch (action.type) {
       case "CHANGE_USER":
@@ -32,6 +33,7 @@ export const ChatContextProvider = ({ children }) => {
     }
   };
 
+  // useReducer pour gérer l'état du chat
   const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
 
   return (

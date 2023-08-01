@@ -7,6 +7,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate, Link } from "react-router-dom";
 
+// Composant pour la page d'inscription
 const Register = () => {
   const [err, setErr] = useState(false);
   const navigate = useNavigate();
@@ -19,12 +20,16 @@ const Register = () => {
     const file = e.target[3].files[0];
 
     try {
+      // Crée un nouvel utilisateur avec l'email et le mot de passe
       const res = await createUserWithEmailAndPassword(auth, email, password);
   
+      // Crée une référence au stockage pour l'avatar de l'utilisateur
       const storageRef = ref(storage, res.user.uid); 
   
+      // Télécharge l'avatar dans le stockage
       const uploadTask = uploadBytesResumable(storageRef, file);
 
+      // Gère les changements d'état du téléchargement et les erreurs
       uploadTask.on('state_changed', 
         (snapshot) => {
           
@@ -33,12 +38,17 @@ const Register = () => {
           setErr(true);
         }, 
         () => {
-        
+
+          // Code à exécuter une fois le téléchargement terminé
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            
+            // Met à jour le profil de l'utilisateur avec le nom d'affichage et l'URL de l'avatar
             await updateProfile(res.user, {
               displayName,
               photoURL: downloadURL,
             });
+
+            // Enregistre les données de l'utilisateur dans la base de données Firestore
             await setDoc(doc(db, "users", res.user.uid), {
               uid: res.user.uid,
               displayName,

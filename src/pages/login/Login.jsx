@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
 
+// Composant de la page de connexion
 const Login = () => {
   const [err, setErr] = useState(false);
   const navigate = useNavigate();
@@ -14,9 +15,11 @@ const Login = () => {
     const password = e.target[1].value;
 
     try {
+      // Tente de se connecter avec l'email et le mot de passe
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/");
     } catch (err) {
+      // Si une erreur se produit, met à jour l'état d'erreur
       setErr(true);
     }
   };
