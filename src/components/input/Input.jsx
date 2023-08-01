@@ -21,12 +21,14 @@ const Input = () => {
   const [img, setImg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Récupération des informations de l'utilisateur actuel et du contexte du chat
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
   const handleSend = async () => {
     setIsLoading(true);
     if (img) {
+      // Initialisation du processus de téléchargement de l'image sur le serveur Firebase
       const storageRef = ref(storage, uuid());
 
       const uploadTask = uploadBytesResumable(storageRef, img);
@@ -37,7 +39,9 @@ const Input = () => {
         (error) => {},
         async () => {
           try {
+            // Une fois le téléchargement terminé, on récupère l'URL pour le téléchargement de l'image
             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            // Et on met à jour la base de données Firebase avec les nouvelles données du message
             await updateDoc(doc(db, "chats", data.chatId), {
               messages: arrayUnion({
                 id: uuid(),
@@ -50,11 +54,13 @@ const Input = () => {
           } catch (error) {
             console.error("An error occurred:", error);
           } finally {
+            // Indique la fin du processus d'envoi du message
             setIsLoading(false);
           }
         }
       );
     } else {
+      // Si aucune image n'est attachée au message, on met simplement à jour la base de données avec les nouvelles données du message
       await updateDoc(doc(db, "chats", data.chatId), {
         messages: arrayUnion({
           id: uuid(),
@@ -66,6 +72,7 @@ const Input = () => {
       setIsLoading(false);
     }
 
+    // Met à jour les informations du dernier message envoyé pour l'utilisateur actuel et l'utilisateur du chat
     await updateDoc(doc(db, "userChats", currentUser.uid), {
       [data.chatId + ".lastMessage"]: {
         text,
@@ -80,6 +87,7 @@ const Input = () => {
       [data.chatId + ".date"]: serverTimestamp(),
     });
 
+    // Réinitialise le texte et l'image de l'état local
     setText("");
     setImg(null);
   };
